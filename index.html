@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="pt-MZ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Finanças Moçambique 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg-gradient-start: #f0f4f8;
+            --bg-gradient-end: #d9e2ec;
+            --card-bg: rgba(255,255,255,0.95);
+            --card-bg-glass: rgba(255,255,255,0.7);
+            --text-primary: #1a2c3e;
+            --text-secondary: #62748c;
+            --border-color: rgba(0,0,0,0.05);
+            --shadow-sm: 0 8px 20px rgba(0,0,0,0.08);
+            --shadow-md: 0 12px 30px rgba(0,0,0,0.12);
+            --shadow-lg: 0 20px 40px rgba(0,0,0,0.15);
+            --shadow-xl: 0 30px 60px rgba(0,0,0,0.2);
+            --btn-income: linear-gradient(135deg, #00b4aa, #00897b);
+            --btn-expense: linear-gradient(135deg, #ff7043, #f4511e);
+            --tab-bg: rgba(255,255,255,0.5);
+            --tab-inactive: #5c6bc0;
+            --balance-positive: #00b4aa;
+            --balance-negative: #ff7043;
+            --modal-bg: white;
+            --support-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-border: rgba(255,255,255,0.3);
+        }
+
+        body.dark {
+            --bg-gradient-start: #0f0c29;
+            --bg-gradient-end: #24243e;
+            --card-bg: rgba(30,30,50,0.95);
+            --card-bg-glass: rgba(30,30,50,0.7);
+            --text-primary: #f0f0f0;
+            --text-secondary: #a0a0b0;
+            --border-color: rgba(255,255,255,0.05);
+            --shadow-sm: 0 8px 20px rgba(0,0,0,0.3);
+            --shadow-md: 0 12px 30px rgba(0,0,0,0.4);
+            --shadow-lg: 0 20px 40px rgba(0,0,0,0.5);
+            --btn-income: linear-gradient(135deg, #00d4c6, #00a89a);
+            --btn-expense: linear-gradient(135deg, #ff8a65, #ff5722);
+            --tab-bg: rgba(30,30,50,0.5);
+            --tab-inactive: #7986cb;
+            --balance-positive: #00d4c6;
+            --balance-negative: #ff8a65;
+            --modal-bg: #1e1e32;
+            --support-bg: linear-gradient(135deg, #7c4dff 0%, #b47cff 100%);
+            --glass-border: rgba(255,255,255,0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            padding: 16px;
+            padding-bottom: 80px;
+            color: var(--text-primary);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(0,180,170,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 60%, rgba(255,112,67,0.06) 0%, transparent 50%),
+                        radial-gradient(circle at 50% 80%, rgba(92,107,192,0.04) 0%, transparent 50%);
+            animation: waveBackground 25s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes waveBackground {
+            0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.6; }
+            33% { transform: rotate(120deg) scale(1.1); opacity: 0.8; }
+            66% { transform: rotate(240deg) scale(0.9); opacity: 0.5; }
+        }
+
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatParticle var(--duration, 15s) ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes floatParticle {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(50px, -30px) rotate(90deg); }
+            50% { transform: translate(100px, 0) rotate(180deg); }
+            75% { transform: translate(50px, 30px) rotate(270deg); }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+            position: relative;
+            backdrop-filter: blur(10px);
+            background: var(--card-bg-glass);
+            border-radius: 40px;
+            padding: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-md);
+            animation: floatHeader 4s ease-in-out infinite;
+        }
+
+        @keyframes floatHeader {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .header-controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 12px;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+        }
+
+        .icon-btn {
+            background: var(--card-bg);
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .icon-btn:hover {
+            transform: rotate(180deg) scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .app-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 12px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        .app-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #ff7043, #f4511e);
+            color: white;
+            font-size: 0.7rem;
+            padding: 6px 12px;
+            border-radius: 40px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            animation: badgeGlow 2s infinite;
+        }
+
+        @keyframes badgeGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255,112,67,0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(255,112,67,0); }
+        }
+
+        .support-btn {
+            background: var(--support-bg);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 80px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 24px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            letter-spacing: 0.5px;
+        }
+
+        .support-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .support-btn:hover::before {
+            left: 100%;
+        }
+
+        .support-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            background: var(--tab-bg);
+            padding: 8px;
+            border-radius: 100px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 8px;
+            border: none;
+            background: transparent;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-size: 0.8rem;
+            color: var(--tab-inactive);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00b4aa, #ff7043);
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+
+        .tab-btn.active::after {
+            width: 60%;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgba(0,180,170,0.2), rgba(255,112,67,0.1));
+            color: var(--balance-positive);
+            transform: scale(1.02);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .accounts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .account-card {
+            background: var(--card-bg);
+            border-radius: 32px;
+            padding: 18px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(5px);
+            animation: cardReveal 0.6s ease-out backwards;
+        }
+
+        .account-card:nth-child(1) { animation-delay: 0.05s; }
+        .account-card:nth-child(2) { animation-delay: 0.1s; }
+
+        @keyframes cardReveal {
+            from {
+                opacity: 0;
+                transform: translateY(40px) rotateX(-10deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+
+        .account-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .account-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .account-card:hover .account-icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .account-icon img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .account-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+            color: var(--balance-positive);
+        }
+
+        .account-balance {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--balance-negative);
+            transition: all 0.3s ease;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .btn-action {
+            flex: 1;
+            background: var(--card-bg);
+            border: none;
+            padding: 14px 0;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-action::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.4s;
+        }
+
+        .btn-action:hover::before {
+            left: 100%;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-income {
+            background: var(--btn-income);
+            color: white;
+        }
+
+        .btn-expense {
+            background: var(--btn-expense);
+            color: white;
+        }
+
+        .list-container {
+            background: var(--card-bg);
+            border-radius: 28px;
+            overflow: hidden;
+            margin-top: 16px;
+            box-shadow: var(--shadow-sm);
+            backdrop-filter: blur(5px);
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideInRight 0.5s ease-out backwards;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .list-item:hover {
+            background: rgba(0,180,170,0.05);
+            transform: translateX(8px);
+        }
+
+        .price-badge {
+            background: linear-gradient(135deg, #00b4aa, #00897b);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 10px;
+            display: inline-block;
+        }
+
+        .dark .price-badge {
+            background: linear-gradient(135deg, #00d4c6, #00a89a);
+        }
+
+        .calculator {
+            background: var(--card-bg-glass);
+            border-radius: 40px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            animation: modalSlideUp 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .calc-display {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 20px;
+            text-align: right;
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: monospace;
+            min-height: 90px;
+            word-break: break-all;
+            color: var(--balance-positive);
+            transition: all 0.2s ease;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .calc-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .calc-btn {
+            background: var(--card-bg);
+            border: none;
+            padding: 18px;
+            border-radius: 28px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .calc-btn:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .calc-btn:active {
+            transform: scale(0.95);
+        }
+
+        .calc-btn.operator {
+            background: var(--btn-expense);
+            color: white;
+        }
+
+        .calc-btn.equals {
+            background: var(--btn-income);
+            color: white;
+        }
+
+        .calc-btn.clear {
+            background: var(--btn-expense);
+            color: white;
+        }
+
+        .total-card {
+            background: var(--btn-income);
+            border-radius: 28px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 16px;
+            box-shadow: var(--shadow-md);
+            animation: totalPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes totalPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.02); opacity: 0.95; }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .modal-card {
+            background: var(--modal-bg);
+            border-radius: 40px;
+            padding: 24px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            animation: modalSlideUp 0.4s ease;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--balance-positive);
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--balance-negative);
+            transform: scale(1.02);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-save, .btn-cancel {
+            padding: 12px;
+            border: none;
+            border-radius: 60px;
+            flex: 1;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-save {
+            background: var(--btn-income);
+            color: white;
+        }
+
+        .btn-cancel {
+            background: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-save:hover, .btn-cancel:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .support-info {
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            padding: 24px;
+            border-radius: 32px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .support-info h4 {
+            color: var(--balance-positive);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .support-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--balance-negative);
+            margin: 15px 0;
+            letter-spacing: 3px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #00b4aa, #ff7043);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: numberGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes numberGlow {
+            0%, 100% { filter: drop-shadow(0 0 2px #00b4aa); }
+            50% { filter: drop-shadow(0 0 15px #ff7043); }
+        }
+
+        .support-name {
+            font-size: 1rem;
+            color: var(--balance-positive);
+            font-weight: bold;
+        }
+
+        .copy-btn {
+            background: var(--btn-income);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 60px;
+            margin-top: 12px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .fee-box {
+            background: var(--card-bg);
+            border-radius: 32px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .fee-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: var(--balance-positive);
+        }
+
+        .fee-calculator {
+            background: linear-gradient(135deg, rgba(0,180,170,0.1), rgba(255,112,67,0.1));
+            padding: 16px;
+            border-radius: 24px;
+            margin-top: 16px;
+            border-left: 4px solid var(--balance-negative);
+        }
+
+        .info-note {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        .alert-banner {
+            background: linear-gradient(135deg, #ff7043, #f4511e);
+            color: white;
+            padding: 10px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            text-align: center;
+            font-size: 0.75rem;
+            cursor: pointer;
+            font-weight: bold;
+            animation: slideInRight 0.4s ease;
+        }
+
+        .delete-btn, .complete-btn {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .complete-btn { color: var(--balance-positive); }
+        .delete-btn { color: var(--balance-negative); }
+        .delete-btn:hover, .complete-btn:hover { transform: scale(1.1); background: var(--border-color); }
+
+        @media (max-width: 480px) {
+            .accounts-grid { grid-template-columns: 1fr; }
+            .support-number { font-size: 1.5rem; }
+            .calc-display { font-size: 1.8rem; padding: 18px; }
+            .calc-btn { padding: 14px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+<div id="particles"></div>
+<div class="container">
+    <div class="header">
+        <div class="header-controls">
+            <button class="icon-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            <button class="icon-btn" onclick="toggleCalculator()">🧮</button>
+        </div>
+        <div class="app-logo">
+            <img src="https://i.ibb.co/0jz8fP53/IMG-20260427-113326.png" alt="Logo">
+        </div>
+        <h1 style="background: linear-gradient(135deg, #00b4aa, #ff7043); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 1.6rem; margin-bottom: 5px;">
+            Finanças MZ 2026
+        </h1>
+        <p style="font-size: 0.75rem; color: var(--text-secondary);">💰 Gestão financeira moderna</p>
+    </div>
+
+    <button class="support-btn" onclick="openSupportModal()">
+        <span>❤️</span> Apoie este projeto <span>❤️</span>
+    </button>
+
+    <div id="calculatorPanel" class="calculator" style="display: none;">
+        <div class="calc-display" id="calcDisplay">0</div>
+        <div class="calc-buttons">
+            <button class="calc-btn clear" onclick="calculatorClear()">C</button>
+            <button class="calc-btn" onclick="calculatorInput('%')">%</button>
+            <button class="calc-btn" onclick="calculatorInput('/')">÷</button>
+            <button class="calc-btn" onclick="calculatorBackspace()">⌫</button>
+            <button class="calc-btn" onclick="calculatorInput('7')">7</button>
+            <button class="calc-btn" onclick="calculatorInput('8')">8</button>
+            <button class="calc-btn" onclick="calculatorInput('9')">9</button>
+            <button class="calc-btn operator" onclick="calculatorInput('*')">×</button>
+            <button class="calc-btn" onclick="calculatorInput('4')">4</button>
+            <button class="calc-btn" onclick="calculatorInput('5')">5</button>
+            <button class="calc-btn" onclick="calculatorInput('6')">6</button>
+            <button class="calc-btn operator" onclick="calculatorInput('-')">-</button>
+            <button class="calc-btn" onclick="calculatorInput('1')">1</button>
+            <button class="calc-btn" onclick="calculatorInput('2')">2</button>
+            <button class="calc-btn" onclick="calculatorInput('3')">3</button>
+            <button class="calc-btn operator" onclick="calculatorInput('+')">+</button>
+            <button class="calc-btn" onclick="calculatorInput('0')">0</button>
+            <button class="calc-btn" onclick="calculatorInput('.')">.</button>
+            <button class="calc-btn equals" onclick="calculatorCalculate()">=</button>
+            <button class="calc-btn operator" onclick="calculatorInput('(')">(</button>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="dashboard">📊 Carteiras</button>
+        <button class="tab-btn" data-tab="shopping">🛒 Compras</button>
+        <button class="tab-btn" data-tab="fees">💰 Taxas</button>
+        <button class="tab-btn" data-tab="tasks">✅ Tarefas</button>
+    </div>
+
+    <div id="dashboard" class="tab-content active">
+        <div class="accounts-grid" id="accountsGrid"></div>
+        <div class="quick-actions">
+            <button class="btn-action btn-income" onclick="openTransactionModal('income')">➕ Receita</button>
+            <button class="btn-action btn-expense" onclick="openTransactionModal('expense')">➖ Despesa</button>
+        </div>
+        <h3 style="margin-top: 16px; font-size: 0.9rem; color: var(--balance-positive);">📋 Últimas Transações</h3>
+        <div class="list-container" id="transactionsList"></div>
+    </div>
+
+    <div id="shopping" class="tab-content">
+        <button class="btn-action btn-income" style="margin-bottom: 12px;" onclick="openShoppingModal()">➕ Adicionar à Lista</button>
+        <div id="shoppingReminderAlert" class="alert-banner" style="display: none;"></div>
+        <div class="list-container" id="shoppingList"></div>
+    </div>
+
+    <div id="fees" class="tab-content">
+        <div class="fee-box">
+            <div class="fee-title">💰 Calculadora de Taxas (Tabelas Oficiais 2026)</div>
+            <div class="input-group">
+                <label>Serviço</label>
+                <select id="feeService" onchange="updateTransactionTypeOptions()">
+                    <option value="mpesa">📱 M-Pesa (Vodafone)</option>
+                    <option value="emola">💳 e-Mola</option>
+                </select>
+            </div>
+            <div class="input-group" id="mpesaTypeGroup">
+                <label>Tipo de Transacção (M-Pesa)</label>
+                <select id="mpesaTransactionType">
+                    <option value="withdrawal">💸 Levantamento (Agente/ATM)</option>
+                    <option value="transfer_mpesa">📲 Transferência para M-Pesa</option>
+                    <option value="transfer_other">🔄 Transferência para outras carteiras</option>
+                    <option value="bank_transfer">🏦 Transferência para conta bancária</option>
+                </select>
+            </div>
+            <div class="input-group" id="emolaTypeGroup" style="display: none;">
+                <label>Tipo de Transacção (e-Mola)</label>
+                <select id="emolaTransactionType">
+                    <option value="withdrawal">💸 Levantamento (Agente)</option>
+                    <option value="merchant">🛒 Pagamento no Comerciante (Paga Já)</option>
+                    <option value="bank_transfer">🏦 Transferência para conta bancária</option>
+                </select>
+            </div>
+            <div class="input-group" id="withdrawalMethodGroup">
+                <label>Método de Levantamento (apenas para 100 MT no M-Pesa)</label>
+                <select id="withdrawalMethod">
+                    <option value="agent">Agente (taxa 4 MT)</option>
+                    <option value="atm">ATM Ponto24 (taxa 5 MT)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Valor (MZN)</label>
+                <input type="number" id="feeAmount" placeholder="0.00">
+            </div>
+            <button class="btn-save" onclick="calculateFee()">Calcular Taxa</button>
+            <div class="fee-calculator" id="feeResult">
+                <strong>📊 Selecione o serviço e valor</strong><br>
+                Taxas baseadas nas tabelas oficiais 2026
+            </div>
+        </div>
+        <div class="info-note">
+            ⚡ M-Pesa: Limite 75.000 MT/transacção • Depósitos e abertura grátis<br>
+            ⚡ e-Mola: Limite diário 500.000 MT • Saldo máximo 500.000 MT
+        </div>
+    </div>
+
+    <div id="tasks" class="tab-content">
+        <button class="btn-action btn-income" style="margin-bottom: 12px;" onclick="openTaskModal()">✅ Nova Tarefa</button>
+        <div class="list-container" id="tasksList"></div>
+    </div>
+</div>
+
+<div id="genericModal" class="modal">
+    <div class="modal-card">
+        <h3 id="modalTitle" style="color: var(--balance-positive);">Título</h3>
+        <form id="genericForm" onsubmit="return false;">
+            <div id="modalFields"></div>
+            <div class="modal-buttons">
+                <button type="button" class="btn-cancel" onclick="closeModal()">Cancelar</button>
+                <button type="submit" class="btn-save">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="supportModal" class="modal">
+    <div class="modal-card support-modal">
+        <h3 style="color: var(--balance-positive);">❤️ Apoie o Projeto ❤️</h3>
+        <div class="support-info">
+            <h4>e-Mola</h4>
+            <div class="support-number" onclick="copySupportNumber()">879373376</div>
+            <div class="support-name">Serafim Tarcísio Jacinto</div>
+            <button class="copy-btn" onclick="copySupportNumber()">📋 Copiar Número</button>
+        </div>
+        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 10px;">
+            Sua contribuição mantém este app gratuito e em evolução!
+        </p>
+        <div class="modal-buttons" style="margin-top: 20px;">
+            <button class="btn-cancel" onclick="closeSupportModal()">Fechar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Partículas flutuantes
+    function createParticles() {
+        const particleContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.innerHTML = ['💰', '💳', '📱', '💵', '🏦', '✨'][Math.floor(Math.random() * 6)];
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            particle.style.setProperty('--duration', (Math.random() * 20 + 10) + 's');
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particleContainer.appendChild(particle);
+        }
+    }
+
+    // Apoio
+    function openSupportModal() { document.getElementById('supportModal').style.display = 'flex'; }
+    function closeSupportModal() { document.getElementById('supportModal').style.display = 'none'; }
+    function copySupportNumber() {
+        navigator.clipboard.writeText('879373376').then(() => alert('Número copiado: 879373376'));
+    }
+
+    // Calculadora
+    let calcExpression = '';
+    function toggleCalculator() {
+        const panel = document.getElementById('calculatorPanel');
+        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        if (panel.style.display === 'block') panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    function calculatorInput(v) { calcExpression += v; document.getElementById('calcDisplay').innerText = calcExpression; }
+    function calculatorClear() { calcExpression = ''; document.getElementById('calcDisplay').innerText = '0'; }
+    function calculatorBackspace() { calcExpression = calcExpression.slice(0, -1) || '0'; document.getElementById('calcDisplay').innerText = calcExpression; }
+    function calculatorCalculate() {
+        try { calcExpression = eval(calcExpression.replace(/×/g, '*').replace(/÷/g, '/')).toString(); document.getElementById('calcDisplay').innerText = calcExpression; }
+        catch { document.getElementById('calcDisplay').innerText = 'Erro'; setTimeout(() => { calcExpression = '0'; document.getElementById('calcDisplay').innerText = '0'; }, 1000); }
+    }
+
+    // Tema
+    function toggleTheme() {
+        document.body.classList.toggle('dark');
+        const btn = document.getElementById('themeBtn');
+        btn.innerHTML = document.body.classList.contains('dark') ? '☀️' : '🌙';
+        saveAll();
+    }
+
+    // Dados
+    let accounts = { mpesa: { name: "M-Pesa", logo: "https://i.ibb.co/BHh0R760/images.png", balance: 0 }, emola: { name: "e-Mola", logo: "https://i.ibb.co/q3Sjb9hT/images-1.png", balance: 0 } };
+    let transactions = [], shoppingList = [], tasks = [];
+
+    function loadData() {
+        const saved = localStorage.getItem('finmz2026_theme');
+        if (saved === 'dark') { document.body.classList.add('dark'); document.getElementById('themeBtn').innerHTML = '☀️'; }
+        const savedAccounts = localStorage.getItem('finmz2026_accounts');
+        const savedTransactions = localStorage.getItem('finmz2026_transactions');
+        const savedShopping = localStorage.getItem('finmz2026_shopping');
+        const savedTasks = localStorage.getItem('finmz2026_tasks');
+        if (savedAccounts) accounts = JSON.parse(savedAccounts);
+        if (savedTransactions) transactions = JSON.parse(savedTransactions);
+        if (savedShopping) shoppingList = JSON.parse(savedShopping);
+        if (savedTasks) tasks = JSON.parse(savedTasks);
+        renderAll();
+    }
+    function saveAll() {
+        localStorage.setItem('finmz2026_accounts', JSON.stringify(accounts));
+        localStorage.setItem('finmz2026_transactions', JSON.stringify(transactions));
+        localStorage.setItem('finmz2026_shopping', JSON.stringify(shoppingList));
+        localStorage.setItem('finmz2026_tasks', JSON.stringify(tasks));
+        localStorage.setItem('finmz2026_theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
+    function renderAll() {
+        const grid = document.getElementById('accountsGrid');
+        let total = accounts.mpesa.balance + accounts.emola.balance;
+        grid.innerHTML = `
+            <div class="account-card"><div class="account-icon"><img src="${accounts.mpesa.logo}"></div><div class="account-info"><div class="account-name">${accounts.mpesa.name}</div><div class="account-balance">${accounts.mpesa.balance.toFixed(2)} <small>MZN</small></div></div></div>
+            <div class="account-card"><div class="account-icon"><img src="${accounts.emola.logo}"></div><div class="account-info"><div class="account-name">${accounts.emola.name}</div><div class="account-balance">${accounts.emola.balance.toFixed(2)} <small>MZN</small></div></div></div>
+            <div class="total-card"><span style="font-size:1.5rem;">💰</span><div class="account-info"><div class="account-name" style="color:white;">TOTAL</div><div class="account-balance" style="color:#ff8f00;">${total.toFixed(2)} <small style="color:white;">MZN</small></div></div></div>`;
+        
+        const tContainer = document.getElementById('transactionsList');
+        if (transactions.length === 0) tContainer.innerHTML = '<div class="list-item">✨ Nenhuma transação ainda</div>';
+        else tContainer.innerHTML = [...transactions].reverse().slice(0,10).map((t, idx) => `<div class="list-item" style="--i:${idx+1}"><div class="item-info"><div class="item-title">${t.type === 'income' ? '➕' : '➖'} ${t.category} - ${t.account === 'mpesa' ? 'M-Pesa' : 'e-Mola'}</div><div class="item-sub">${t.description || 'Sem descrição'} • ${t.date}</div></div><div style="font-weight:bold;color:${t.type === 'income' ? 'var(--balance-positive)' : 'var(--balance-negative)'}">${t.type === 'income' ? '+' : '-'} ${t.amount.toFixed(2)} MZN</div><button class="delete-btn" onclick="deleteTransaction(${t.id})">🗑️</button></div>`).join('');
+        
+        // Renderizar lista de compras com preço
+        document.getElementById('shoppingList').innerHTML = shoppingList.length ? shoppingList.map((i, idx) => `<div class="list-item" style="--i:${idx+1}"><div class="item-info"><div class="item-title">${i.item} ${i.quantity ? `(x${i.quantity})` : ''} ${i.price ? `<span class="price-badge">${i.price.toFixed(2)} MZN</span>` : ''}</div><div class="item-sub">${i.reminderDate ? `🔔 ${i.reminderDate}` : 'Sem lembrete'}</div></div><button class="delete-btn" onclick="deleteShoppingItem(${i.id})">🗑️</button></div>`).join('') : '<div class="list-item">🛒 Lista vazia</div>';
+        
+        document.getElementById('tasksList').innerHTML = tasks.length ? tasks.map((t, idx) => `<div class="list-item" style="--i:${idx+1};${t.completed ? 'opacity:0.6;text-decoration:line-through;' : ''}"><div class="item-info"><div class="item-title">${t.completed ? '✓' : '○'} ${t.title}</div><div class="item-sub">${t.dueDate ? `Vence: ${t.dueDate}` : 'Sem data'}</div></div><div>${!t.completed ? `<button class="complete-btn" onclick="toggleTask(${t.id})">✓</button>` : ''}<button class="delete-btn" onclick="deleteTask(${t.id})">🗑️</button></div></div>`).join('') : '<div class="list-item">✅ Nenhuma tarefa</div>';
+    }
+
+    function openTransactionModal(type) {
+        document.getElementById('modalTitle').innerText = type === 'income' ? '➕ Receita' : '➖ Despesa';
+        document.getElementById('modalFields').innerHTML = `
+            <div class="input-group"><label>Carteira</label><select id="transAccount"><option value="mpesa">📱 M-Pesa (${accounts.mpesa.balance.toFixed(2)} MZN)</option><option value="emola">💳 e-Mola (${accounts.emola.balance.toFixed(2)} MZN)</option></select></div>
+            <div class="input-group"><label>Valor (MZN)</label><input type="number" id="transAmount" step="0.01" required></div>
+            <div class="input-group"><label>Categoria</label><select id="transCategory">${type === 'income' ? '<option>💼 Salário</option><option>💻 Freelance</option><option>🎁 Presente</option><option>📌 Outros</option>' : '<option>🍲 Alimentação</option><option>🚗 Transporte</option><option>🏠 Habitação</option><option>💊 Saúde</option><option>🎉 Lazer</option><option>📌 Outros</option>'}</select></div>
+            <div class="input-group"><label>Descrição</label><input type="text" id="transDesc" placeholder="Opcional"></div>
+            <div class="input-group"><label>Data</label><input type="date" id="transDate" value="${new Date().toISOString().split('T')[0]}"></div>`;
+        document.getElementById('genericModal').style.display = 'flex';
+        document.getElementById('genericForm').onsubmit = () => {
+            const a = document.getElementById('transAccount').value, v = parseFloat(document.getElementById('transAmount').value);
+            if (isNaN(v) || v <= 0) { alert('Valor inválido!'); return false; }
+            if (type === 'expense' && accounts[a].balance < v) { alert(`Saldo insuficiente!`); return false; }
+            const t = { id: Date.now(), type, account: a, amount: v, category: document.getElementById('transCategory').value, description: document.getElementById('transDesc').value, date: document.getElementById('transDate').value };
+            type === 'income' ? accounts[a].balance += v : accounts[a].balance -= v;
+            transactions.push(t); saveAll(); renderAll(); closeModal(); return false;
+        };
+    }
+    function deleteTransaction(id) { if (confirm('Remover?')) { const t = transactions.find(t => t.id === id); if (t) t.type === 'income' ? accounts[t.account].balance -= t.amount : accounts[t.account].balance += t.amount; transactions = transactions.filter(t => t.id !== id); saveAll(); renderAll(); } }
+    
+    // Lista de Compras com preço opcional
+    function openShoppingModal() { 
+        document.getElementById('modalTitle').innerText = '🛒 Adicionar à Lista de Compras'; 
+        document.getElementById('modalFields').innerHTML = `
+            <div class="input-group"><label>Item <span style="color:#ff7043;">*</span></label><input type="text" id="shopItem" required placeholder="Ex: Arroz, Sabão, Crédito..."></div>
+            <div class="input-group"><label>Quantidade (opcional)</label><input type="text" id="shopQty" placeholder="Ex: 2kg, 1 unidade"></div>
+            <div class="input-group"><label>Preço (opcional - MZN)</label><input type="number" id="shopPrice" step="0.01" placeholder="Ex: 250.00"></div>
+            <div class="input-group"><label>Lembrar em (opcional)</label><input type="date" id="shopReminder"></div>
+            <div style="font-size:0.7rem; color:var(--text-secondary); margin-top:8px;">* Campos obrigatórios</div>`;
+        document.getElementById('genericModal').style.display = 'flex'; 
+        document.getElementById('genericForm').onsubmit = () => { 
+            const item = document.getElementById('shopItem').value; 
+            if (!item) { alert('Digite o nome do item!'); return false; } 
+            const price = document.getElementById('shopPrice').value;
+            shoppingList.push({ 
+                id: Date.now(), 
+                item: item, 
+                quantity: document.getElementById('shopQty').value, 
+                price: price ? parseFloat(price) : null,
+                reminderDate: document.getElementById('shopReminder').value 
+            }); 
+            saveAll(); 
+            renderAll(); 
+            closeModal(); 
+            return false; 
+        }; 
+    }
+    function deleteShoppingItem(id) { shoppingList = shoppingList.filter(i => i.id !== id); saveAll(); renderAll(); }
+    
+    function openTaskModal() { document.getElementById('modalTitle').innerText = '✅ Nova Tarefa'; document.getElementById('modalFields').innerHTML = `<div class="input-group"><label>Título</label><input type="text" id="taskTitle" required></div><div class="input-group"><label>Data limite</label><input type="date" id="taskDue"></div>`; document.getElementById('genericModal').style.display = 'flex'; document.getElementById('genericForm').onsubmit = () => { const t = document.getElementById('taskTitle').value; if (!t) { alert('Digite o título!'); return false; } tasks.push({ id: Date.now(), title: t, completed: false, dueDate: document.getElementById('taskDue').value }); saveAll(); renderAll(); closeModal(); return false; }; }
+    function toggleTask(id) { const t = tasks.find(t => t.id === id); if (t) { t.completed = !t.completed; saveAll(); renderAll(); } }
+    function deleteTask(id) { tasks = tasks.filter(t => t.id !== id); saveAll(); renderAll(); }
+    
+    function updateTransactionTypeOptions() {
+        const service = document.getElementById('feeService').value;
+        document.getElementById('mpesaTypeGroup').style.display = service === 'mpesa' ? 'block' : 'none';
+        document.getElementById('emolaTypeGroup').style.display = service === 'emola' ? 'block' : 'none';
+        document.getElementById('withdrawalMethodGroup').style.display = service === 'mpesa' ? 'block' : 'none';
+    }
+    
+    function calculateFee() {
+        const service = document.getElementById('feeService').value;
+        const amount = parseFloat(document.getElementById('feeAmount').value);
+        
+        if (isNaN(amount) || amount <= 0) {
+            alert('Por favor, digite um valor válido em Meticais (MZN)');
+            return;
+        }
+        
+        // M-PESA tabelas
+        const mpesaTransferToMpesa = [
+            { min: 1, max: 50, fee: 1 }, { min: 51, max: 100, fee: 2 }, { min: 101, max: 500, fee: 4 },
+            { min: 501, max: 1000, fee: 8 }, { min: 1001, max: 2000, fee: 10 }, { min: 2001, max: 2750, fee: 12 },
+            { min: 2751, max: 4000, fee: 15 }, { min: 4001, max: 10000, fee: 20 }, { min: 10001, max: 25000, fee: 30 },
+            { min: 25001, max: 50000, fee: 45 }, { min: 50001, max: 75000, fee: 60 }
+        ];
+        
+        const mpesaTransferToOtherWallets = [
+            { min: 1, max: 19.99, fee: 1 }, { min: 20, max: 50, fee: 2 }, { min: 50.01, max: 100, fee: 3 },
+            { min: 100.01, max: 500, fee: 7 }, { min: 500.01, max: 1000, fee: 11 }, { min: 1000.01, max: 2000, fee: 14 },
+            { min: 2000.01, max: 2750, fee: 18 }, { min: 2750.01, max: 4000, fee: 21 }, { min: 4001, max: 5000, fee: 26 },
+            { min: 5000.01, max: 10000, fee: 35 }, { min: 10001, max: 25000, fee: 45 }, { min: 25001, max: 50000, fee: 90 },
+            { min: 50001, max: 75000, fee: 150 }
+        ];
+        
+        const mpesaWithdrawal = [
+            { min: 20, max: 100, fee: 4 }, { min: 101, max: 1000, fee: 10 }, { min: 1001, max: 2000, fee: 20 },
+            { min: 2001, max: 5000, fee: 40 }, { min: 5001, max: 10000, fee: 80 }, { min: 10001, max: 15000, fee: 100 },
+            { min: 15001, max: 20000, fee: 120 }, { min: 20001, max: 25000, fee: 150 }, { min: 25001, max: 50000, fee: 300 },
+            { min: 50001, max: 75000, fee: 450 }
+        ];
+        
+        const mpesaBankTransfer = [
+            { min: 20, max: 100, fee: 4 }, { min: 101, max: 1000, fee: 10 }, { min: 1001, max: 2000, fee: 20 },
+            { min: 2001, max: 5000, fee: 40 }, { min: 5001, max: 10000, fee: 80 }, { min: 10001, max: 15000, fee: 100 },
+            { min: 15001, max: 20000, fee: 120 }, { min: 20001, max: 25000, fee: 150 }, { min: 25001, max: 50000, fee: 300 },
+            { min: 50001, max: 75000, fee: 450 }
+        ];
+        
+        // e-MOLA tabelas
+        const emolaWithdrawal = [
+            { min: 10, max: 100, fee: 3 }, { min: 101, max: 1000, fee: 8 }, { min: 1001, max: 2000, fee: 16 },
+            { min: 2001, max: 5000, fee: 34 }, { min: 5001, max: 10000, fee: 68 }, { min: 10001, max: 15000, fee: 100 },
+            { min: 15001, max: 20000, fee: 120 }, { min: 20001, max: 25000, fee: 150 }, { min: 25001, max: 50000, fee: 300 },
+            { min: 50001, max: 100000, fee: 450 }, { min: 100001, max: 200000, fee: 700 }
+        ];
+        
+        const emolaMerchantPayment = [
+            { min: 1, max: 19, fee: 1 }, { min: 20, max: 50, fee: 2 }, { min: 51, max: 100, fee: 3 },
+            { min: 101, max: 500, fee: 7 }, { min: 501, max: 1000, fee: 11 }, { min: 1001, max: 2000, fee: 14 },
+            { min: 2001, max: 2750, fee: 18 }, { min: 2751, max: 4000, fee: 21 }, { min: 4001, max: 5000, fee: 26 },
+            { min: 5001, max: 10000, fee: 35 }, { min: 10001, max: 25000, fee: 45 }, { min: 25001, max: 50000, fee: 85 }
+        ];
+        
+        const emolaBankTransfer = [
+            { min: 101, max: 1000, fee: 8 }, { min: 1001, max: 2000, fee: 16 }, { min: 2001, max: 5000, fee: 34 },
+            { min: 5001, max: 10000, fee: 68 }, { min: 10001, max: 15000, fee: 100 }, { min: 15001, max: 20000, fee: 120 },
+            { min: 20001, max: 25000, fee: 150 }, { min: 25001, max: 50000, fee: 300 }, { min: 50001, max: 100000, fee: 450 },
+            { min: 100001, max: 200000, fee: 700 }
+        ];
+        
+        let fee = 0;
+        let description = '';
+        let serviceName = '';
+        let typeName = '';
+        
+        if (service === 'mpesa') {
+            serviceName = 'M-Pesa (Vodafone)';
+            const type = document.getElementById('mpesaTransactionType').value;
+            
+            if (type === 'transfer_mpesa') {
+                typeName = 'Transferência para M-Pesa';
+                const tier = mpesaTransferToMpesa.find(t => amount >= t.min && amount <= t.max);
+                if (tier) { fee = tier.fee; description = `${tier.min} - ${tier.max} MZN`; }
+                else if (amount > 75000) { fee = 60; description = 'Acima de 75.000 MZN'; }
+                else { fee = 1; description = 'Valor mínimo'; }
+            } else if (type === 'transfer_other') {
+                typeName = 'Transferência para outras carteiras';
+                const tier = mpesaTransferToOtherWallets.find(t => amount >= t.min && amount <= t.max);
+                if (tier) { fee = tier.fee; description = `${tier.min} - ${tier.max} MZN`; }
+                else if (amount > 75000) { fee = 150; description = 'Acima de 75.000 MZN'; }
+                else { fee = 1; description = 'Valor mínimo'; }
+            } else if (type === 'withdrawal') {
+                typeName = 'Levantamento';
+                const withdrawalMethod = document.getElementById('withdrawalMethod').value;
+                if (amount === 100 && withdrawalMethod === 'atm') { fee = 5; description = 'Levantamento ATM (100 MT)'; }
+                else {
+                    const tier = mpesaWithdrawal.find(t => amount >= t.min && amount <= t.max);
+                    if (tier) { fee = tier.fee; description = `${tier.min} - ${tier.max} MZN`; }
+                    else if (amount < 20) { fee = 4; description = 'Valor mínimo (20 MT)'; }
+                    else if (amount > 75000) { fee = 450; description = 'Acima de 75.000 MZN'; }
+                    else { fee = 4; description = 'Valor mínimo'; }
+                }
+            } else if (type === 'bank_transfer') {
+                typeName = 'Transferência para conta bancária';
+                const tier = mpesaBankTransfer.find(t => amount >= t.min && amount <= t.max);
+                if (tier) { fee = tier.fee; description = `${tier.min} - ${tier.max} MZN`; }
+                else if (amount > 75000) { fee = 450; description = 'Acima de 75.000 MZN'; }
+                else if (amount < 20) { fee = 4; description = 'Valor mínimo (20 MT)'; }
+                else { fee = 4; description = 'Valor mínimo'; }
+            }
+        } else if (service === 'emola') {
+            serviceName = 'e-Mola';
+            const type = document.getElementById('emolaTransactionType').value;
+            
+            if (type === 'withdrawal') {
+                typeName = 'Levantamento (Agente)';
+                const tier = emolaWithdrawal.find(t => amount >= t.min && amount <= t.max);
+                if (tier) { fee = tier.fee; description = `${tier.min} - ${tier.max} MZN`; }
+                else if (amount < 10) { fee = 3; description = 'Valor mínimo (10 MT)'; }
+                else if (amount > 200000) { fee = 700; description = 'Acima de 200.000 MZN'; }
+                else { fee = 3; description = 'Valor mínimo'; }
+            } else if (type === 'merchant') {
+                typeName = 'Pagamento no Comerciante (Paga Já)';
+                const tier = emolaMerchantPayment.find(t => amount >= t.min && amount <= t.max);
+                if (tier) { fee = tier.fee; description = `${tier.min} - ${tier.max} MZN`; }
+                else if (amount > 50000) { fee = 85; description = 'Acima de 50.000 MZN'; }
+                else if (amount < 1) { fee = 1; description = 'Valor mínimo'; }
+                else { fee = 1; description = 'Valor mínimo'; }
+            } else if (type === 'bank_transfer') {
+                typeName = 'Transferência para conta bancária';
+                const tier = emolaBankTransfer.find(t => amount >= t.min && amount <= t.max);
+                if (tier) { fee = tier.fee; description = `${tier.min} - ${tier.max} MZN`; }
+                else if (amount < 101) { fee = 8; description = 'Valor mínimo (101 MT)'; }
+                else if (amount > 200000) { fee = 700; description = 'Acima de 200.000 MZN'; }
+                else { fee = 8; description = 'Valor mínimo'; }
+            }
+        }
+        
+        const total = amount + fee;
+        
+        let resultHTML = `
+            <div style="background: linear-gradient(135deg, #E8F5E9, #FFF3E0); padding: 16px; border-radius: 20px; animation: fadeSlideIn 0.3s ease;">
+                <strong style="color: #00695c; font-size: 1rem;">📱 ${serviceName}</strong><br>
+                <strong style="color: #1565c0;">Tipo:</strong> <span style="color: #ff8f00; font-weight: bold;">${typeName}</span><br>
+                <strong>Valor:</strong> ${amount.toFixed(2)} MZN<br>
+                <strong>Taxa:</strong> ${fee.toFixed(2)} MZN <span style="font-size: 0.7rem;">(${description})</span><br>
+                <hr style="margin: 12px 0;">
+                <strong style="color: #00695c; font-size: 1.1rem;">💰 Total: ${total.toFixed(2)} MZN</strong>
+            </div>
+        `;
+        
+        if (fee > 100) {
+            resultHTML += `<div style="margin-top: 10px; font-size: 0.75rem; color: #e65100; background: #FFF3E0; padding: 8px; border-radius: 12px;">💡 Dica: Para valores acima de 50.000 MZN, considere transferência bancária.</div>`;
+        }
+        
+        document.getElementById('feeResult').innerHTML = resultHTML;
+    }
+    
+    function checkShoppingReminders() {
+        const today = new Date().toISOString().split('T')[0];
+        const reminders = shoppingList.filter(item => item.reminderDate === today);
+        const alertDiv = document.getElementById('shoppingReminderAlert');
+        
+        if (reminders.length > 0) {
+            let message = '🔔 Lembretes para hoje: ';
+            reminders.forEach(item => {
+                message += `${item.item} ${item.quantity ? `(${item.quantity})` : ''}, `;
+            });
+            message = message.slice(0, -2);
+            alertDiv.textContent = message;
+            alertDiv.style.display = 'block';
+            alertDiv.style.animation = 'slideInRight 0.4s ease';
+            alertDiv.onclick = () => {
+                document.querySelector('[data-tab="shopping"]').click();
+            };
+            setTimeout(() => { alertDiv.style.animation = ''; }, 500);
+        } else {
+            alertDiv.style.display = 'none';
+        }
+    }
+    
+    function closeModal() { document.getElementById('genericModal').style.display = 'none'; }
+    
+    document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        b.classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.getElementById(b.dataset.tab).classList.add('active');
+    }));
+    
+    setInterval(checkShoppingReminders, 3600000);
+    createParticles();
+    loadData();
+</script>
+</body>
+</html>
