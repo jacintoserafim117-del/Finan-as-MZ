@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-MZ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baixar Finanças MZ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #00b4aa, #ff7043);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 48px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.5s ease;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+        h1 {
+            color: #00695c;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        .badge {
+            background: #ff7043;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .features {
+            text-align: left;
+            margin: 24px 0;
+            color: #555;
+        }
+        .features li {
+            margin: 8px 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn {
+            background: linear-gradient(135deg, #00b4aa, #00897b);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+        }
+        .btn:active {
+            transform: scale(0.98);
+        }
+        .version {
+            margin-top: 20px;
+            font-size: 0.7rem;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="logo">💰</div>
+        <h1>Finanças MZ</h1>
+        <span class="badge">Versão 1.0</span>
+        
+        <ul class="features">
+            <li>📱 M-Pesa + e-Mola</li>
+            <li>💰 Calculadora de taxas oficiais 2026</li>
+            <li>🛒 Lista de compras com preços</li>
+            <li>✅ Gestão de tarefas</li>
+            <li>🌙 Modo escuro/claro</li>
+        </ul>
+        
+        <a href="https://raw.githubusercontent.com/jacintoserafim117-del/Finan-as-MZ/main/FinancasMZ.apk" class="btn" download>
+            📲 Baixar APK (32 MB)
+        </a>
+        
+        <div class="version">
+            ⚡ Dados salvos localmente | Atualizações gratuitas
+        </div>
+    </div>
+</body>
+</html><!DOCTYPE html>
+<html lang="pt-MZ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baixar Finanças MZ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #00b4aa, #ff7043);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 48px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.5s ease;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+        h1 {
+            color: #00695c;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        .badge {
+            background: #ff7043;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .features {
+            text-align: left;
+            margin: 24px 0;
+            color: #555;
+        }
+        .features li {
+            margin: 8px 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn {
+            background: linear-gradient(135deg, #00b4aa, #00897b);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+        }
+        .btn:active {
+            transform: scale(0.98);
+        }
+        .version {
+            margin-top: 20px;
+            font-size: 0.7rem;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="logo">💰</div>
+        <h1>Finanças MZ</h1>
+        <span class="badge">Versão 1.0</span>
+        
+        <ul class="features">
+            <li>📱 M-Pesa + e-Mola</li>
+            <li>💰 Calculadora de taxas oficiais 2026</li>
+            <li>🛒 Lista de compras com preços</li>
+            <li>✅ Gestão de tarefas</li>
+            <li>🌙 Modo escuro/claro</li>
+        </ul>
+        
+        <a href="https://raw.githubusercontent.com/jacintoserafim117-del/Finan-as-MZ/main/FinancasMZ.apk" class="btn" download>
+            📲 Baixar APK (32 MB)
+        </a>
+        
+        <div class="version">
+            ⚡ Dados salvos localmente | Atualizações gratuitas
+        </div>
+    </div>
+</body>
+</html>
