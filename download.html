@@ -238,9 +238,9 @@
             <li><span>🧮</span> Calculadora integrada</li>
         </ul>
         
-        <!-- Botão de Download com link corrigido -->
-        <a href="https://raw.githubusercontent.com/jacintoserafim117-del/Finan-as-MZ/main/App2026%20(1).apk" class="btn" download>
-    📲 Baixar APK (32 MB)
+        <!-- Botão de Download com link correto do APK -->
+        <a href="https://raw.githubusercontent.com/jacintoserafim117-del/Finan-as-MZ/main/App2026%20(1).apk" class="btn" download id="downloadBtn">
+            📲 Baixar APK (32 MB)
         </a>
         
         <div class="note" id="noteMessage">
@@ -248,7 +248,7 @@
         </div>
         
         <div class="success-message" id="successMessage">
-            ✅ Download iniciado! Verifique a pasta de Downloads.
+            ✅ Download iniciado! Verifique a pasta de Downloads do seu celular.
         </div>
         
         <div class="version">
@@ -275,19 +275,23 @@
         }
         
         // Mostrar mensagem ao clicar no botão
-        document.getElementById('downloadBtn').addEventListener('click', function(e) {
-            const note = document.getElementById('noteMessage');
-            const success = document.getElementById('successMessage');
-            
-            note.style.display = 'none';
-            success.style.display = 'flex';
-            
-            // Esconder a mensagem após 5 segundos
-            setTimeout(function() {
-                success.style.display = 'none';
-                note.style.display = 'flex';
-            }, 5000);
-        });
+        const downloadBtn = document.getElementById('downloadBtn');
+        const note = document.getElementById('noteMessage');
+        const success = document.getElementById('successMessage');
+        
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', function(e) {
+                // Mostrar mensagem de sucesso
+                note.style.display = 'none';
+                success.style.display = 'flex';
+                
+                // Esconder a mensagem após 5 segundos
+                setTimeout(function() {
+                    success.style.display = 'none';
+                    note.style.display = 'flex';
+                }, 5000);
+            });
+        }
         
         // Iniciar partículas
         createParticles();
