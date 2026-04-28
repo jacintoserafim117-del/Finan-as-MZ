@@ -23,7 +23,6 @@
             overflow-x: hidden;
         }
         
-        /* Fundo animado */
         body::before {
             content: '';
             position: absolute;
@@ -42,7 +41,6 @@
             50% { transform: rotate(5deg) scale(1.05); opacity: 0.8; }
         }
         
-        /* Partículas flutuantes */
         .particle {
             position: fixed;
             pointer-events: none;
@@ -238,8 +236,8 @@
             <li><span>🧮</span> Calculadora integrada</li>
         </ul>
         
-        <!-- Botão de Download com link correto -->
-        <a href="https://raw.githubusercontent.com/jacintoserafim117-del/Finan-as-MZ/main/App2026%20(1).apk" class="btn" download id="downloadBtn">
+        <!-- Botão de Download com o nome correto do APK -->
+        <a href="https://raw.githubusercontent.com/jacintoserafim117-del/Finan-as-MZ/main/FinancasMZ.apk" class="btn" download id="downloadBtn">
             📲 Baixar APK (32 MB)
         </a>
         
@@ -281,11 +279,8 @@
         
         if (downloadBtn) {
             downloadBtn.addEventListener('click', function(e) {
-                // Mostrar mensagem de sucesso
                 note.style.display = 'none';
                 success.style.display = 'flex';
-                
-                // Esconder a mensagem após 5 segundos
                 setTimeout(function() {
                     success.style.display = 'none';
                     note.style.display = 'flex';
@@ -293,7 +288,6 @@
             });
         }
         
-        // Iniciar partículas
         createParticles();
     </script>
 </body>
